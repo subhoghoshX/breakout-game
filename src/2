@@ -1,0 +1,51 @@
+class StartScreen {
+    constructor(canvas, ctx, requestAnimationFrame, gameLoop){
+        this.canvasRef = canvas;
+        this.ctxRef = ctx;
+        this.requestAnimationFrameRef = requestAnimationFrame;
+        this.gameLoopRef = gameLoop;
+        this.btnX = (this.canvasRef.width / 2 - 200 / 2);
+        this.btnY = (this.canvasRef.height / 2 - 80 / 2);
+        this.attachEventListeners();
+    }
+    clickHandler(e) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;     // x position of cursor within the element
+        const y = e.clientY - rect.top;    // y position of cursor within the element
+        if(x >= this.btnX && x <= (this.btnX + 200) && y >= this.btnY && y <= (this.btnY + 80)) {
+            requestAnimationFrame(this.gameLoopRef);
+        }
+    }
+    mousemoveHandler(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            this.canvasRef.style.cursor = 'auto';
+            if(x >= this.btnX && x <= (this.btnX + 200) && y >= this.btnY && y <= (this.btnY + 80)) {
+                this.canvasRef.style.cursor = 'pointer';
+            }
+    }
+    attachEventListeners() {
+        this.canvasRef.addEventListener('click', this.clickHandler);
+        this.canvasRef.addEventListener('mousemove', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            this.canvasRef.style.cursor = 'auto';
+            if(x >= this.btnX && x <= (this.btnX + 200) && y >= this.btnY && y <= (this.btnY + 80)) {
+                this.canvasRef.style.cursor = 'pointer';
+            }
+        });
+    }
+    draw() {
+        //this.ctxRef.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        //this.ctxRef.fillRect(0, 0, this.canvasRef.width, this.canvasRef.height);
+        this.ctxRef.fillStyle = '#9333EA';
+        this.ctxRef.fillRect(this.btnX, this.btnY, 200, 80);
+        this.ctxRef.fillStyle = 'white';
+        this.ctxRef.font = '24px serif';
+        this.ctxRef.fillText('Start The Game', this.btnX + 10, this.btnY + 50);
+    }
+}
+
+export default StartScreen;
